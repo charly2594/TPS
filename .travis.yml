@@ -7,7 +7,7 @@ jdk: oraclejdk8
 # whitelist
 branches:
   only:
-    - test
+    - master
 
 script:
   - ./gradlew build
