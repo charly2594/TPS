@@ -1,5 +1,5 @@
 language: java
-install: true
+##install: true
 
 os: linux
 jdk: oraclejdk8
