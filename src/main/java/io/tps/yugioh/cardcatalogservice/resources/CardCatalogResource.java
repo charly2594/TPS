@@ -50,8 +50,6 @@ public class CardCatalogResource {
             String url_api_request = "https://db.ygoprodeck.com/api/v5/cardinfo.php?fname=" + cardName;
             ResponseEntity<Object> responseEntity = restTemplate.exchange(url_api_request, HttpMethod.GET, entity, Object.class);
 
-            System.out.println(responseEntity.getClass());
-            System.out.println(responseEntity.getBody().getClass());
             ArrayList<LinkedHashMap> rawCardDataList = (ArrayList<LinkedHashMap>) responseEntity.getBody();
 
 
@@ -107,5 +105,10 @@ public class CardCatalogResource {
     public String IdToName(@PathVariable("Id") String Id){
         CatalogCard catalogCard = this.cardSearch(Id);
         return catalogCard.getName();
+    }
+    @RequestMapping("/IdToDesc={Id}")
+    public String IdToDesc(@PathVariable("Id") String Id){
+        CatalogCard catalogCard = this.cardSearch(Id);
+        return catalogCard.getDesc();
     }
 }
