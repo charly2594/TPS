@@ -14,6 +14,7 @@ repositories {
 }
 
 dependencies {
+    compile 'org.springframework.amqp:spring-rabbit:2.1.8.RELEASE'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testCompile("org.springframework.boot:spring-boot-starter-test")

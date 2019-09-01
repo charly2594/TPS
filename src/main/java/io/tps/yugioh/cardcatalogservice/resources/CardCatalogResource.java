@@ -60,6 +60,7 @@ public class CardCatalogResource {
                 cardList.add(cardInstance);
                 //System.out.println(cardInstance.getImage_url());
             }
+            System.out.println("fsearch made");
             return cardList;
 
 
