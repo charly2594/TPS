@@ -5,12 +5,13 @@ import io.tps.yugioh.cardcatalogservice.resources.CardCatalogResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CardCatalogServiceApplicationTests {
-
+	CardCatalogResource ccr;
 	@Test
 	public void contextLoads() throws Exception{
         /*
@@ -19,5 +20,6 @@ public class CardCatalogServiceApplicationTests {
         System.out.println(catalogCard);
         */
 	}
+
 
 }

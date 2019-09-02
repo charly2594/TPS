@@ -9,9 +9,13 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+//Listener Dependencies:
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 
 @RestController
 @RequestMapping("/catalog")
+@Component
 public class CardCatalogResource {
     private final RestTemplate restTemplate;
 
@@ -24,11 +28,6 @@ public class CardCatalogResource {
     public Object testPlayground(@PathVariable("cardName") String cardName) {
 
         LinkedHashMap[] arrayResponse = this.restTemplate.getForObject("https://db.ygoprodeck.com/api/v5/cardinfo.php?fname={cardName}", LinkedHashMap[].class, cardName);
-        /*
-        System.out.println(arrayResponse.getClass());
-        System.out.println(arrayResponse[1].getClass());
-        System.out.println(arrayResponse[1].get("name"));
-        */
         //Testing CatalogCard custom class:
         CatalogCard cardInstance = new CatalogCard(arrayResponse[1]);
         System.out.println(cardInstance);
@@ -98,14 +97,20 @@ public class CardCatalogResource {
 
     }
     @RequestMapping("/IdToImageURL={Id}")
-    public String IdToImageURL(@PathVariable("Id") String Id){
+    @RabbitListener(queues="${jsa.rabbitmq.queue.ImageURL}")
+    public void IdToImageURL(@PathVariable("Id") String Id){
         CatalogCard catalogCard = this.cardSearch(Id);
-        return catalogCard.getImage_url();
+        System.out.println("Recieved Message (IdToImageURL): " + Id);
+        System.out.println(catalogCard.getImage_url());
+        //return catalogCard.getImage_url();
     }
     @RequestMapping("/IdToName={Id}")
-    public String IdToName(@PathVariable("Id") String Id){
+    @RabbitListener(queues="${jsa.rabbitmq.queue}")
+    public void IdToName(@PathVariable("Id") String Id){
         CatalogCard catalogCard = this.cardSearch(Id);
-        return catalogCard.getName();
+        System.out.println("Recieved Message (IdToName): " + Id);
+        System.out.println(catalogCard.getName());
+        //return catalogCard.getName();
     }
     @RequestMapping("/IdToDesc={Id}")
     public String IdToDesc(@PathVariable("Id") String Id){

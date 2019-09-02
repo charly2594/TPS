@@ -1,5 +1,6 @@
 package io.tps.yugioh.cardcatalogservice;
 
+import io.tps.yugioh.cardcatalogservice.resources.CardCatalogResource;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -14,7 +15,7 @@ public class CardCatalogServiceApplication {
 
 	static final String directExchangeName = "jsa.direct";
 
-	static final String queueName = "jsa.queue";
+	static final String queueName = "${jsa.rabbitmq.queue}";
 
 	@Bean
 	Queue queue() {
@@ -42,9 +43,11 @@ public class CardCatalogServiceApplication {
 	}
 
 	@Bean
-	MessageListenerAdapter listenerAdapter(Receiver receiver) {
-		return new MessageListenerAdapter(receiver, "recievedMessage");
+	MessageListenerAdapter listenerAdapter(CardCatalogResource ccr) {
+		return new MessageListenerAdapter(ccr, "IdToName");
 	}
+
+
 
 	@RequestMapping("/")
 	public String home() {
